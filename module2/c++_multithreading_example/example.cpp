@@ -2,8 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <time.h>
  
-#define NUM_THREADS     5
+#define NUM_THREADS     8
 
 // Found at https://en.wikipedia.org/wiki/POSIX_Threads
 
@@ -14,7 +15,11 @@ void* perform_work( void* argument )
   passed_in_value = *( ( int* )argument );
   printf( "Hello World! It's me, thread with argument %d!\n", passed_in_value );
  
-  /* optionally: insert more useful stuff here */
+  struct timespec t;
+  t.tv_sec = 1 * passed_in_value;
+  t.tv_nsec = 0;
+  printf( "Sleeping for %d seconds... \n", passed_in_value);
+  nanosleep(&t, NULL);
  
   return NULL;
 }
